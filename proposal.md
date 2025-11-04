@@ -1,7 +1,7 @@
 # Guess The Flag Game
 
 ## Repository
-https://github.com/IvyShertzer/ShertzerIvy_Proposal.git
+https://github.com/IvyShertzer/ShertzerIvy_FinalProject.git
 
 ## Description
 
