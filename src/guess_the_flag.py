@@ -1,22 +1,19 @@
 import pygame
 
-#first page: 
+#first page(start of game)
     #print/draw "welcome to guess the flag!
     #draw START button
     #start button INITIATES random selection, as well as 
-#second page
-    #
-    
+#second page (main game loop)
+    #PRINTS flag from random selected country
+    #prints guess 1: and draws guess/type box for input
+    #player puts in guess input
+        #if input.strip == country
+            #win
+        #if input.strip =/ country
+            #print hint, then give next guess
 
 def main():
-     #choose random country
-    #Present random flag
-    #guess loop
-        #player guess input
-        #if right
-            #win
-        #if wrong
-            #hint
     pygame.init()
     pygame.display.set_caption("Guess The Flag")
     resolution = (600, 600)
