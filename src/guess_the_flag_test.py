@@ -19,11 +19,15 @@ import random
 
 def main():
     pygame.init()
+    clock = pygame.time.Clock()
     pygame.font.init()
+    font = pygame.font.SysFont("Arial", 36)
+    user_text = '..'
+
+
     pygame.display.set_caption("Guess The Flag")
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
-    font = pygame.font.SysFont("Arial", 36)
     flag = pygame.image.load('cambodia_flag.png')
     #randomchoice country
     running = True
@@ -31,21 +35,33 @@ def main():
      for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    user_text =  user_text[0:-1]
+                else:
+                    user_text += event.unicode
      color = pygame.Color("White")
      screen.fill(color)
+
+     type_text = font.render(user_text, True,(0,0,0))
+     screen.blit(type_text, (200,500))
+
+
+
      #title:
      text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
      screen.blit(text_surface, (200, 0))
+     
      #draw flag from randomly selected country
      screen.blit(flag, (50,100))
+     
      #draw type box class
      pygame.display.flip()
+     clock.tick(12)
      if pygame.key.get_pressed()[pygame.K_ESCAPE]:
             pygame.QUIT()
     pygame.quit()
    
-
-
 
 
 
