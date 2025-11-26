@@ -22,9 +22,9 @@ def main():
     clock = pygame.time.Clock()
     pygame.font.init()
     font = pygame.font.SysFont("Arial", 36)
-    user_text = '..'
-
-
+    user_text = ''
+    type_rect = pygame.Rect(150,500, 300, 45)
+    rect_color = (0,0,0)
     pygame.display.set_caption("Guess The Flag")
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
@@ -43,10 +43,9 @@ def main():
      color = pygame.Color("White")
      screen.fill(color)
 
+     pygame.draw.rect(screen, rect_color, type_rect, 2)
      type_text = font.render(user_text, True,(0,0,0))
-     screen.blit(type_text, (200,500))
-
-
+     screen.blit(type_text, (155,500))
 
      #title:
      text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
