@@ -11,11 +11,17 @@ import random
             #win
         #if input.strip =/ country
             #print hint, then give next guess
-#FONT = pygame.font.SysFont("Arial", 20)
                     
+def check_guess(guess, country):
+    font = pygame.font.SysFont("Arial", 36)
+    global game_state
+    if guess.strip() == country:
+        game_state = "win"
+
+    else: 
+        guess = ''
 
     
-
 
 def main():
     pygame.init()
@@ -29,7 +35,10 @@ def main():
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
     flag = pygame.image.load('cambodia_flag.png')
-    #randomchoice country
+    country = "cambodia"
+    color = pygame.Color("White")
+    global game_state
+    game_state= "playing"
     running = True
     while running:
      for event in pygame.event.get():
@@ -40,22 +49,38 @@ def main():
                     user_text =  user_text[0:-1]
                 else:
                     user_text += event.unicode
-     color = pygame.Color("White")
-     screen.fill(color)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    check_guess(user_text,country)
 
-     pygame.draw.rect(screen, rect_color, type_rect, 2)
-     type_text = font.render(user_text, True,(0,0,0))
-     screen.blit(type_text, (155,500))
+     if game_state == "playing":
+   
+            screen.fill(color)
+
+            pygame.draw.rect(screen, rect_color, type_rect, 2)
+            type_text = font.render(user_text, True,(0,0,0))
+            screen.blit(type_text, (155,500))
+
+     #return user_text to guess function
 
      #title:
-     text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
-     screen.blit(text_surface, (200, 0))
+            text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
+            screen.blit(text_surface, (200, 0))
      
      #draw flag from randomly selected country
-     screen.blit(flag, (50,100))
+            screen.blit(flag, (50,100))
      
      #draw type box class
-     pygame.display.flip()
+            pygame.display.flip()
+
+
+     if game_state == "win":
+            screen.fill(color) 
+            text_surface = font.render('Congratulations, you are smart', True, (0, 214, 0))
+            screen.blit(text_surface, (70, 400))
+
+            pygame.display.flip()
+         
      clock.tick(12)
      if pygame.key.get_pressed()[pygame.K_ESCAPE]:
             pygame.QUIT()
