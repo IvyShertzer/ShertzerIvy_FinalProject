@@ -50,7 +50,7 @@ def main():
     
     flag = pygame.image.load('cambodia_flag.png')
     country = "cambodia"
-    color = pygame.Color("White")
+    color = (255,255,255)
     screen.fill(color)
     global game_state
     game_state= "playing"
@@ -80,9 +80,17 @@ def main():
                          text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
                          screen.blit(text_surface, (200, 0))
                          screen.blit(flag, (50,100))
-     if hint_count == 6:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    if restart_butt.collidepoint(mouse):
+                      game_state = "playing"
+                      hint_count == 0
+                      main()
+                      print("poop")
+                 
+     if hint_count == 3:
         game_state = "fail"
      if game_state == "playing":
+            
             pygame.draw.rect(screen, rect_color, type_rect, 2)
             type_text = font.render(user_text, True,(0,0,0))
             screen.blit(type_text, (155,500))
@@ -104,8 +112,14 @@ def main():
      if game_state == "fail":
             
             screen.fill(color) 
-            text_surface = font.render('Oops! Out of guesses! The correct answer was:', True, (255, 0, 0))
-            screen.blit(text_surface, (80, 300))
+            fail_one = font.render('Oops! Out of guesses!', True, (255, 0, 0))
+            fail_two = font.render('The correct answer was:', True, (255, 0, 0))
+            screen.blit(fail_one, (80, 300))
+            screen.blit(fail_two, (80, 340))
+            restart_butt = pygame.draw.rect(screen,(255,255,0), type_rect,)
+            mouse = pygame.mouse.get_pos()
+            restart_butt.collidepoint(mouse)
+
             pygame.display.flip()
           
          
