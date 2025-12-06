@@ -17,11 +17,23 @@ def check_guess(guess, country):
     global game_state
     if guess.strip() == country:
         game_state = "win"
-
+        return True
     else: 
-        guess = ''
+        return False
 
-    
+def hint():
+     #choose hint from list of hint
+     #draw (hint)
+     global screen
+     with open("hints.txt", 'r') as hints:
+          hint_list = list(hints)
+          hint = random.choice(hint_list)
+     print(hint)
+     font = pygame.font.SysFont("Arial", 30)
+     hint_print = font.render(hint, True, (255, 0, 0))
+     screen.blit(hint_print, (20,550))
+     pygame.display.flip()
+     
 
 def main():
     pygame.init()
@@ -32,11 +44,14 @@ def main():
     type_rect = pygame.Rect(150,500, 300, 45)
     rect_color = (0,0,0)
     pygame.display.set_caption("Guess The Flag")
+    global screen 
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
+    
     flag = pygame.image.load('cambodia_flag.png')
     country = "cambodia"
     color = pygame.Color("White")
+    screen.fill(color)
     global game_state
     game_state= "playing"
     running = True
@@ -44,42 +59,48 @@ def main():
      for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    correct = check_guess(user_text,country)
+                    if not correct:
+                         user_text = ""
+                         screen.fill(color)
+                         pygame.draw.rect(screen, rect_color, type_rect, 2)
+                         type_text = font.render(user_text, True,(0,0,0))
+                         screen.blit(type_text, (155,500))
+                         hint()
+                         text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
+                         screen.blit(text_surface, (200, 0))
+                         screen.blit(flag, (50,100))
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     user_text =  user_text[0:-1]
+                    pygame.display.update()
                 else:
                     user_text += event.unicode
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    check_guess(user_text,country)
-
      if game_state == "playing":
-   
-            screen.fill(color)
-
             pygame.draw.rect(screen, rect_color, type_rect, 2)
             type_text = font.render(user_text, True,(0,0,0))
             screen.blit(type_text, (155,500))
-
-     #return user_text to guess function
-
      #title:
             text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
             screen.blit(text_surface, (200, 0))
-     
-     #draw flag from randomly selected country
+     #draw flag
             screen.blit(flag, (50,100))
-     
-     #draw type box class
             pygame.display.flip()
-
-
      if game_state == "win":
             screen.fill(color) 
-            text_surface = font.render('Congratulations, you are smart', True, (0, 214, 0))
-            screen.blit(text_surface, (70, 400))
-
+            text_surface = font.render('Congratulations, you are smart!!!', True, (0, 214, 0))
+            screen.blit(text_surface, (80, 300))
             pygame.display.flip()
+            #play again : restart button
+     if game_state == "fail":
+            screen.fill(color) 
+            text_surface = font.render('Oops! Out of guesses! The correct answer was:', True, (0, 214, 0))
+            screen.blit(text_surface, (80, 300))
+            pygame.display.flip()
+          
          
      clock.tick(12)
      if pygame.key.get_pressed()[pygame.K_ESCAPE]:
