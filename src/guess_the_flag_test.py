@@ -28,7 +28,6 @@ def hint():
      with open("hints.txt", 'r') as hints:
           hint_list = list(hints)
           hint = random.choice(hint_list)
-     print(hint)
      font = pygame.font.SysFont("Arial", 30)
      hint_print = font.render(hint, True, (255, 0, 0))
      screen.blit(hint_print, (20,550))
@@ -47,6 +46,7 @@ def main():
     global screen 
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
+    hint_count = 0
     
     flag = pygame.image.load('cambodia_flag.png')
     country = "cambodia"
@@ -55,11 +55,17 @@ def main():
     global game_state
     game_state= "playing"
     running = True
+    
     while running:
      for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    user_text =  user_text[0:-1]
+                    pygame.display.update()
+                else:
+                    user_text += event.unicode
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     correct = check_guess(user_text,country)
@@ -70,15 +76,12 @@ def main():
                          type_text = font.render(user_text, True,(0,0,0))
                          screen.blit(type_text, (155,500))
                          hint()
+                         hint_count += 1
                          text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
                          screen.blit(text_surface, (200, 0))
                          screen.blit(flag, (50,100))
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    user_text =  user_text[0:-1]
-                    pygame.display.update()
-                else:
-                    user_text += event.unicode
+     if hint_count == 6:
+        game_state = "fail"
      if game_state == "playing":
             pygame.draw.rect(screen, rect_color, type_rect, 2)
             type_text = font.render(user_text, True,(0,0,0))
@@ -88,16 +91,20 @@ def main():
             screen.blit(text_surface, (200, 0))
      #draw flag
             screen.blit(flag, (50,100))
+            
             pygame.display.flip()
+
      if game_state == "win":
             screen.fill(color) 
             text_surface = font.render('Congratulations, you are smart!!!', True, (0, 214, 0))
             screen.blit(text_surface, (80, 300))
             pygame.display.flip()
             #play again : restart button
+
      if game_state == "fail":
+            
             screen.fill(color) 
-            text_surface = font.render('Oops! Out of guesses! The correct answer was:', True, (0, 214, 0))
+            text_surface = font.render('Oops! Out of guesses! The correct answer was:', True, (255, 0, 0))
             screen.blit(text_surface, (80, 300))
             pygame.display.flip()
           
