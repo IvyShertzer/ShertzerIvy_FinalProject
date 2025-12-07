@@ -1,0 +1,19 @@
+{
+    "cambodia": {"flag":"cambodia_flag.png", "hints":["This country is in SouthEast Asia", 
+    "This country is not an island", "This country is famous for the Angkor Wat temple",
+    "This coutry's capital is Phnom Penh", "This country borders Thailand and Laos", "" ]},
+    "cuba": {"flag": "Flag-Cuba.jpg", "hints": ["This Country is an island in North America", 
+    "This country's official language is Spanish", "The capital is Havana", 
+    "This country is located in the Bahamas","Camilla Cabello was born here", "" ]},
+    "south africa": {"flag": "Flag_of_South_Africa.svg.png", "hints": ["This country shares a name with it's continent", 
+    "This country is in Africa", "One main language in this country is Afrikaans", "This country was colonized by the Dutch", 
+    "This country has 3 capitals", "The most famous capital is cape town", ""]},
+    "norway": {"flag":"Flag_of_Norway.svg.png", "hints": ["This country is in Scandinavia", 
+    "This country's capital is Oslo", "This country is famous for its fjords", "Princess Elsa lives here", 
+    "This country borders Sweden", ""]},
+    "nicaragua": {"flag": "Flag_of_Nicaragua.png", "hints": ["This country is in Central America", "It is the largest country in its region",
+    "The country name starts with 'N'", "This country's capital is Managua", "This country borders Honduras and Costa Rica", "" ]},
+    "morocco": {"flag": "Flag_of_Morocco.png", "hints": ["This is a country in Africa", 
+    "This country has two c's", "This country's largest religion is Islam", 
+    "This country's capital is Rabat", "This country is almost touching spain", ""]}
+}

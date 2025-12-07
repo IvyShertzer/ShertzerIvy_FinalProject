@@ -1,5 +1,6 @@
 import pygame
 import random
+import json
 #on initiation:
     #PRINTS guess the flag at top
     #PRINTS white type box that handles keyboard entry
@@ -12,25 +13,24 @@ import random
         #if input.strip =/ country
             #print hint, then give next guess
                     
-def check_guess(guess, country):
+def check_guess(guess, answer):
     font = pygame.font.SysFont("Arial", 36)
     global game_state
-    if guess.strip() == country:
+    if guess.strip() == answer:
         game_state = "win"
         return True
     else: 
         return False
 
-def hint():
+def hint(hints, hint_index):
      #choose hint from list of hint
      #draw (hint)
      global screen
-     with open("hints.txt", 'r') as hints:
-          hint_list = list(hints)
-          hint = random.choice(hint_list)
+     
      font = pygame.font.SysFont("Arial", 30)
-     hint_print = font.render(hint, True, (255, 0, 0))
+     hint_print = font.render(hints[hint_index], True, (255, 0, 0))
      screen.blit(hint_print, (20,550))
+     
      pygame.display.flip()
      
 
@@ -47,9 +47,16 @@ def main():
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
     hint_count = 0
-    
-    flag = pygame.image.load('cambodia_flag.png')
-    country = "cambodia"
+
+    with open("countries.json") as countries:
+        country = json.load(countries)
+        country_list = list(country.keys())
+        answer = random.choice(country_list)
+        flag = country[answer]["flag"]
+        hints = country[answer]["hints"]
+    hint_index = 0 
+
+    flag_pic = pygame.image.load(flag)
     color = (255,255,255)
     screen.fill(color)
     global game_state
@@ -68,18 +75,19 @@ def main():
                     user_text += event.unicode
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    correct = check_guess(user_text,country)
+                    correct = check_guess(user_text, answer)
                     if not correct:
                          user_text = ""
                          screen.fill(color)
                          pygame.draw.rect(screen, rect_color, type_rect, 2)
                          type_text = font.render(user_text, True,(0,0,0))
                          screen.blit(type_text, (155,500))
-                         hint()
+                         hint(hints, hint_index)
                          hint_count += 1
                          text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
-                         screen.blit(text_surface, (200, 0))
-                         screen.blit(flag, (50,100))
+                         screen.blit(text_surface, (200, 25))
+                         screen.blit(flag_pic, (50,100))
+                         hint_index += 1
             if event.type == pygame.MOUSEBUTTONDOWN:
                     if restart_butt.collidepoint(mouse):
                       game_state = "playing"
@@ -87,18 +95,19 @@ def main():
                       main()
                       print("poop")
                  
-     if hint_count == 3:
+     if hint_count == 6:
         game_state = "fail"
+
      if game_state == "playing":
             
-            pygame.draw.rect(screen, rect_color, type_rect, 2)
+            pygame.draw.rect(screen, rect_color, type_rect, 4)
             type_text = font.render(user_text, True,(0,0,0))
             screen.blit(type_text, (155,500))
      #title:
             text_surface = font.render('Guess The Flag!', True, (255, 0, 0))
-            screen.blit(text_surface, (200, 0))
+            screen.blit(text_surface, (200, 25))
      #draw flag
-            screen.blit(flag, (50,100))
+            screen.blit(flag_pic, (50,100))
             
             pygame.display.flip()
 
@@ -106,17 +115,29 @@ def main():
             screen.fill(color) 
             text_surface = font.render('Congratulations, you are smart!!!', True, (0, 214, 0))
             screen.blit(text_surface, (80, 300))
+            
+            
+            restart_butt = pygame.draw.rect(screen,(45, 217, 45), type_rect,)
+            pygame.draw.rect(screen,(0,0,0), type_rect, 4)
+            restart_text = font.render('Play Again', True, (255,255,255))
+            screen.blit(restart_text,(225,500))
+            mouse = pygame.mouse.get_pos()
+            restart_butt.collidepoint(mouse)
+            mouse = pygame.mouse.get_pos()
+            restart_butt.collidepoint(mouse)
             pygame.display.flip()
-            #play again : restart button
-
      if game_state == "fail":
             
             screen.fill(color) 
-            fail_one = font.render('Oops! Out of guesses!', True, (255, 0, 0))
-            fail_two = font.render('The correct answer was:', True, (255, 0, 0))
-            screen.blit(fail_one, (80, 300))
-            screen.blit(fail_two, (80, 340))
-            restart_butt = pygame.draw.rect(screen,(255,255,0), type_rect,)
+            fail_one = font.render('Oops! You loose!', True, (255, 0, 0))
+            screen.blit(fail_one, (155, 300))
+            
+            restart_butt = pygame.draw.rect(screen,(45, 217, 45), type_rect,)
+            pygame.draw.rect(screen,(0,0,0), type_rect, 4)
+            restart_text = font.render('Play Again', True, (255,255,255))
+            screen.blit(restart_text,(225,500))
+            mouse = pygame.mouse.get_pos()
+            restart_butt.collidepoint(mouse)
             mouse = pygame.mouse.get_pos()
             restart_butt.collidepoint(mouse)
 

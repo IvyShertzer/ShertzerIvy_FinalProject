@@ -1,6 +1,0 @@
-Cambodia
-Hint: This country is located in SouthEast Asia
-Hint: This country borders Thailand
-Hint: This country is famous for the Angkor Wat temple
-Hint: The country name starts with a 'c'
-Hint: This country is NOT an island
