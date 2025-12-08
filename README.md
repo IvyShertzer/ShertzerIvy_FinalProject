@@ -1,4 +1,4 @@
-# PROJECT TITLE
+# Guess The Flag
 
 ## Demo
 Demo Video: <https://youtu.be/bHOziEm-6a8>
