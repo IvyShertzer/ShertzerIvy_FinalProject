@@ -1,18 +1,16 @@
 import pygame
 import random
 import json
-#on initiation:
-    #PRINTS guess the flag at top
-    #PRINTS white type box that handles keyboard entry
-    #chooses RANDOM COUNTRY (make sure a new random is not selected every frame )
-    #PRINTS flag from asscoiated random selected country
-    #prints guess 1: and draws guess/type box for input
-    #player puts in guess input
-        #if input.strip == country
-            #win
-        #if input.strip =/ country
-            #print hint, then give next guess
-                    
+
+def choose():
+     with open("countries.json") as countries:
+        country = json.load(countries)
+        country_list = list(country.keys())
+        answer = random.choice(country_list)
+        flag = country[answer]["flag"]
+        hints = country[answer]["hints"]
+        return answer, flag, hints
+
 def check_guess(guess, answer):
     font = pygame.font.SysFont("Arial", 36)
     global game_state
@@ -34,6 +32,7 @@ def hint(hints, hint_index):
      pygame.display.flip()
      
 
+
 def main():
     pygame.init()
     clock = pygame.time.Clock()
@@ -46,14 +45,9 @@ def main():
     global screen 
     resolution = (600, 800)
     screen = pygame.display.set_mode(resolution)
-    hint_count = 0
+    answer, flag, hints = choose()
 
-    with open("countries.json") as countries:
-        country = json.load(countries)
-        country_list = list(country.keys())
-        answer = random.choice(country_list)
-        flag = country[answer]["flag"]
-        hints = country[answer]["hints"]
+    hint_count = 0
     hint_index = 0 
 
     flag_pic = pygame.image.load(flag)
