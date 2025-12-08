@@ -14,7 +14,7 @@ def choose():
 def check_guess(guess, answer):
     font = pygame.font.SysFont("Arial", 36)
     global game_state
-    if guess.strip() == answer:
+    if guess.strip().lower() == answer:
         game_state = "win"
         return True
     else: 
